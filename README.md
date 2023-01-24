@@ -11,6 +11,18 @@ Most commands should also work on Cent OS and Rocky Linux.
 
 ---
 
+## Manuals
+
+Man pages are located in directory: `/usr/share/man`.
+
+```bash
+man man
+zcat /usr/share/man/man1/man.1.gz
+man -a intro
+```
+
+---
+
 ## Services
 
 ```bash
@@ -72,18 +84,27 @@ systemctl is-enabled atd
 
 ## Networking
 
-### IP address
+- Clean up
+- Add more info
 
-### Default gateway
+### IP Address
 
-### Network mask
+todo
+
+### Default Gateway
+
+todo
+
+### Network Mask
+
+todo
 
 ### Hostname
 
 - edit `/etc/hostname`
 - hostnamectl
 
-### Name resolution
+### Name Resolution
 
 - edit `/etc/hosts`
 - dynamic resolution using DNS
@@ -91,11 +112,11 @@ systemctl is-enabled atd
 - static nameserver config
 - use Network Manager
 
-### Network device naming
+### Network Device Naming
 
-`en`: ethernet  
-`wl`: wireless LAN (WLAN)  
-`ww`: wireless wide area network (WWAN)
+- `en`: ethernet  
+- `wl`: wireless LAN (WLAN)  
+- `ww`: wireless wide area network (WWAN)
 
 Use firmware or BIOS information.
 
@@ -109,12 +130,10 @@ Use devices found physically.
 
 ### Tools
 
-```bash
-ip
-nmcli
-nmtui
-nm-connection-editor
-```
+- ip
+- nmcli
+- nmtui
+- nm-connection-editor
 
 Or use GNOME's network GUI.
 
@@ -129,9 +148,9 @@ Or manually create or modify `ifcfg-eth0`:
 
 ---
 
-## Date and time
+## Date and Time
 
-### System time
+### System Time
 
 ```bash
 timedatectl
@@ -147,7 +166,7 @@ timedatectl set-timezone America/Chicago
 timedatectl set-ntp true
 ```
 
-### Schedule a command
+### Schedule a Command
 
 ```bash
 man at
@@ -158,7 +177,9 @@ sudo systemctl start atd
 sudo systemctl enable atd
 ```
 
-### Using at and batch
+---
+
+## At and Batch
 
 Schedule a job to run 5 minutes from now.
 
@@ -188,10 +209,7 @@ Execute an arbitrary number commands (if the system isn't busy).
 
 ```bash
 batch
-```
-
-```bash
-touch ~/batchfile.txt
+touch ~/batch-file.txt
 ```
 
 Press `ctrl + d` to save and exit the prompt.
@@ -199,12 +217,12 @@ Press `ctrl + d` to save and exit the prompt.
 Confirm the command was executed.
 
 ```bash
-ls -l ~/batchfile.txt
+ls -l ~/batch-file.txt
 ```
 
 ---
 
-## Cron jobs
+## Cron Jobs
 
 User cron jobs are stored in directory:  
 `/var/spool/cron/<user>`  
@@ -238,7 +256,7 @@ sudo systemctl start crond
 sudo systemctl enable crond
 ```
 
-### User cron job
+### User Cron Job
 
 ```bash
 crontab -e # Edit
@@ -248,20 +266,20 @@ crontab -l # Display
 crontab -r # Remove
 ```
 
-### Root cron job
+### Root Cron Job
 
 ```bash
 sudoedit /etc/cron.d/backupdocs
 0 1 * * * root rsync -a /home/vagrant/Documents/ /home/vagrant/Documents.bak
 ```
 
-### Timely cron job directories
+### Timely Cron Job Directories
 
 ```bash
 ls -d /etc/cron.*
 ```
 
-### Limit access
+### Limiting Access
 
 If the allow file exists (and is empty), no one is allowed.  
 If the deny file exists (and is empty), no one is denied.
@@ -275,7 +293,7 @@ If the deny file exists (and is empty), no one is denied.
 
 The allow file has priority over the deny file if the files are not empty.
 
-### PAM configuration files
+### PAM Configuration Files
 
 ```bash
 man access.conf
