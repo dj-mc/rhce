@@ -302,3 +302,137 @@ sudoedit /etc/security/access.conf
 # Deny ALL users access (EXCEPT root) to use cron
 :ALL EXCEPT root:cron
 ```
+
+---
+
+## Stdin/Stdout/Stderr and Redirection
+
+A command piped to another command.
+
+command ---> stdout | stdin ---> command
+
+Redirect to the filesystem instead.
+
+command ---> stdout ---> filesystem
+
+```bash
+# Overwrite
+ls > /home/ls-out.txt
+# Append to end
+ls >> /home/ls-out.txt
+
+# Redirect only stderr
+ls 2> /home/ls-out.err
+ls 2>> /home/ls-out.err
+
+# Redirect both stdout and stderr
+ls &> /home/ls-out-all.txt
+ls &>> /home/ls-out-all.txt
+```
+
+```bash
+# Redirect ls-out.txt to sort,
+# then redirect the sorted text to sorted.txt.
+sort < /home/ls-out.txt > /home/sorted.txt
+```
+
+Split stdout with tee to both a file and the screen.
+
+```bash
+# Overwrite
+ls | tee ls-out.txt
+# Append to end
+ls | tee -a ls-out.txt
+```
+
+```bash
+find /etc | sort | tee etc-sort.txt | wc -l
+# Redirect find's stderr to a file
+find /etc 2> etc-err.txt | sort | tee etc-sort.txt | wc -l
+# Redirect both stdout/err to the bottomless pit
+find /etc &> /dev/null
+```
+
+---
+
+## Grep and Regex
+
+```bash
+find / -name '*.txt'
+# Redirect permission errors to a file
+find / -name '*.txt' 2> find-text-files.err
+
+find / -name '*.txt' | grep cron
+# Redirect permission errors to a file
+find / -name '*.txt' 2> find-grep.err | grep cron
+
+# Invert grep, finding non-blank lines in a file
+grep -v '^$' ./find-text-files.txt
+```
+
+Extended regex works with `awk`, `egrep`, `sed -r`, and `bash [[ =~ ]]`.
+
+```bash
+grep '^http.*tcp.*service$' /etc/services
+egrep '^http.*(tcp|udp).*service$' /etc/services
+```
+
+---
+
+## Tape Archiver
+
+a.k.a. `tar`.
+
+```bash
+# --xattrs preserves extended attributes, like
+# access control lists and SELinux securty context.
+# -cvpf: create, verbose, permissions, filename
+sudo tar --xattrs -cvpf etc.tar /etc
+```
+
+Compression algorithms using `tar`:
+
+```bash
+sudo tar --xattrs --gzip -cvpf etc.tar.gz /etc
+sudo tar --xattrs --bzip2 -cvpf etc.tar.bz2 /etc
+sudo tar --xattrs --xz -cvpf etc.tar.xz /etc
+```
+
+List what's compressed in the archive:
+
+```bash
+tar --gzip -tf etc.tar.gz
+tar --bzip2 -tf etc.tar.bz2
+tar --xz -tf etc.tar.xz
+```
+
+Extract all files from the archive:
+
+```bash
+sudo tar --xattrs -xvpf etc.tar
+# Or specify an output directory
+sudo tar --xattrs -xvpf etc.tar -C /home/vagrant/Downloads/
+```
+
+Compress `/etc/services` without `tar`.
+
+```bash
+# Copy it
+cp /etc/services .
+
+# Using gzip
+gzip services
+gunzip services.gz
+
+# Using bzip2
+bzip2 services
+bunzip2 services.bz2
+
+# Using xz
+xz services
+unxz services.xz
+
+# Using zip (Windows-compatible)
+zip services.zip services
+unzip services.zip
+```
