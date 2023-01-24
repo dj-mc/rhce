@@ -1,5 +1,9 @@
 # rhce
 
+Red Hat Certified Engineer (RHCE)
+
+---
+
 Red Hat Enterprise Linux (RHEL) notes on
 system administration and infrastructure development.
 
@@ -89,12 +93,16 @@ systemctl is-enabled atd
 
 ### Network device naming
 
-Use firmware or BIOS information
+`en`: ethernet  
+`wl`: wireless LAN (WLAN)  
+`ww`: wireless wide area network (WWAN)
+
+Use firmware or BIOS information.
 
 - onboard devices
 - PCI express hotplug devices
 
-Use devices found physically
+Use devices found physically.
 
 - PCI card slot
 - PCI express slot
@@ -103,12 +111,12 @@ Use devices found physically
 
 ```bash
 ip
-nm-cli
-nm-tui
+nmcli
+nmtui
 nm-connection-editor
 ```
 
-Or use GNOME's network GUI
+Or use GNOME's network GUI.
 
 ```bash
 ip addr
