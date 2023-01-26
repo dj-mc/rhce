@@ -25,8 +25,173 @@ Man pages are located in directory: `/usr/share/man`.
 
 ```bash
 man man
+man man-pages
 zcat /usr/share/man/man1/man.1.gz
+
+# Section 1 of the intro pages
+man 1 intro
+# All sections of the intro pages
 man -a intro
+
+# Find pages related to a referenced command
+man -f cron
+whatis -r cron
+
+# Find pages related to a regular expression
+man -k cron
+apropos -r cron
+
+# Find help using --help
+ls --help
+
+# Find help on shell built-ins
+help
+help cd
+
+# Find extensive information
+# These pages include hyperlinks to other info pages
+info
+info bash
+
+# Learn something new
+man perl
+apropos perl
+info perl
+```
+---
+
+## Text Editors
+
+```bash
+nano ~/Documents/new-file.txt
+# Input some text
+# then enter Ctrl+O to write it to file.
+# Enter Ctrl+X to quit
+
+vim ~/Documents/new-file.txt
+# Use hjkl to navigate the cursor
+# Press i to input some text at the cursor
+# Press ESC
+# Enter :w to write it to the file
+# Enter :q to quit or :q! to force quit
+# Or combine them as :wq
+
+vimtutor
+# Enter :quit to quit or :quit! to force quit
+
+# Open vim in a directory
+vim ~/Documents
+# Enter :tabe new-file.txt
+# to open a file as a new tab.
+# Press Ctrl+Alt+PgUp/PgDn to navigate
+# Enter :quit or :q to exit a tab
+```
+
+---
+
+## Files and Directories
+
+Try out these commands.  
+Use `man` or `info` to see what they do.
+
+```bash
+mkdir ~/dir1
+mkdir -p ~/{dir1,dir2,dir3}
+mkdir -p ~/dir3
+vim ~/dir3/my-file.txt
+touch ~/dir3/another-file.txt
+ls -d ~/dir?
+find ~/dir?
+```
+
+```bash
+# Move a file: source to destination
+# -b -n -u: backup, no clobber, update
+mv -b -n -u ~/dir3/my-file.txt ~/my-file.txt
+
+# Copy a file: source to destination
+cp -pf --verbose ~/my-file.txt ~/Documents/my-file.txt
+cp -R ~/dir3 ~/dir4
+```
+
+Want to know what `-pf`, `-R`, or `--verbose` does for `cp`?
+
+1. `man cp`
+2. Type `/` and type `-p`, `-f`, `-R`, or `--verbose` to search
+3. Press `enter` and then `n` or `shift+n` to navigate
+
+You can do this for any command, flag, option, etc.
+to find what you need to know.
+
+```bash
+# Try out tree
+sudo yum install -y tree
+
+# Ensure you're in your home directory
+# for the rest of this section.
+
+cd ~
+
+tree
+tree | grep my-file.txt
+man tree
+
+# Brace expansion
+mkdir dir_{a,b,c}
+touch file_{1,2,3,4}.txt
+tree
+
+# File globbing
+touch file{a,b,c,d,e,f,g}.txt
+ls file[ceg].txt
+ls file{c,e,g}.txt
+ls file?.txt
+ls file+(c|e|g).txt
+
+# Interactively remove files
+rm -i file*
+# Recursively remove multiple directories
+rm -r dir_a dir_c dir_b
+tree
+```
+
+Hard links:
+
+- use practically zero space on disk
+- cannot link to directories or across partitions
+- will not break when its target is deleted
+- use tools like `ls -l` or `stat` to identify inodes
+
+```bash
+# More on inodes
+ls -idl ~
+df -i /dev/sda1
+info inode
+```
+
+Symbolic (soft) links:
+
+- does use some space on disk
+- can link to directories or across partitions
+- will break when its target is deleted
+- explicitly easier to identify with `ls -l`
+
+
+```bash
+touch link-me.txt
+ln link-me.txt hard-linked.txt
+ls -l
+
+# Notice the inode value
+stat link-me.txt
+stat hard-linked.txt
+
+ln -s link-me.txt soft-linked.txt
+ls -l
+
+# Delete the links' target
+rm link-me.txt
+ls -l
 ```
 
 ---
