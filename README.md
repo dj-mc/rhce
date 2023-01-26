@@ -397,6 +397,14 @@ ls -l ~/batch-file.txt
 
 ## Cron Jobs
 
+```bash
+man cron
+man crontab
+man 5 crontab
+sudo systemctl start crond
+sudo systemctl enable crond
+```
+
 User cron jobs are stored in directory:  
 `/var/spool/cron/<user>`  
 User cron jobs are specific to each user, and can be managed by them.  
@@ -420,14 +428,6 @@ Run at 11:45pm every day of every weekend, from March to May:
 
 Run every odd minute:  
 `1-59/2 * * * * /home/vagrant/bin/my_script.sh`
-
-```bash
-man cron
-man crontab
-man 5 crontab
-sudo systemctl start crond
-sudo systemctl enable crond
-```
 
 ### User Cron Job
 
@@ -467,6 +467,13 @@ If the deny file exists (and is empty), no one is denied.
 The allow file has priority over the deny file if the files are not empty.
 
 ### PAM Configuration Files
+
+PAM-aware services can be found in directory: `/etc/pam.d/`
+
+The files' syntax are:  
+`module_interface` `control_flag` `module_name` `module_arguments`
+
+Use access.conf to limit user access:
 
 ```bash
 man access.conf
@@ -541,6 +548,9 @@ find / -name '*.txt' 2> find-grep.err | grep cron
 
 # Invert grep, finding non-blank lines in a file
 grep -v '^$' ./find-text-files.txt
+
+# Use grep and wc to count non-blank lines in this README.md
+grep -v '^$' ./README.md | wc -l
 ```
 
 Extended regex works with `awk`, `egrep`, `sed -r`, and `bash [[ =~ ]]`.
@@ -548,6 +558,12 @@ Extended regex works with `awk`, `egrep`, `sed -r`, and `bash [[ =~ ]]`.
 ```bash
 grep '^http.*tcp.*service$' /etc/services
 egrep '^http.*(tcp|udp).*service$' /etc/services
+```
+
+```bash
+# Search for text inside of all files in the current directory
+grep -rnw . -e 'sql' --exclude-dir={venv,__pypackages__,node_modules,build,dist*}
+egrep -rnw . -e 'head|tail'
 ```
 
 ---
