@@ -1,13 +1,21 @@
 # rhce
 
+This repo is being built for:
+
+Red Hat Certified System Administrator (RHCSA)  
 Red Hat Certified Engineer (RHCE)
+
+And any other resources I deem relevant to
+infrastructure prototyping and development.
 
 ---
 
 Red Hat Enterprise Linux (RHEL) notes on
-system administration and infrastructure development.
+automation, system administration, and infrastructure.
 
-Most commands should also work on Cent OS and Rocky Linux.
+This repo uses Vagrant to quickly set up a RHEL-related VM. I will
+likely set up Ansible and other automation software like Puppet in the near
+future. Commands seen here should also work on Cent OS and Rocky Linux.
 
 ---
 
