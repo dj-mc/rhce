@@ -291,12 +291,12 @@ todo
 - `wl`: wireless LAN (WLAN)  
 - `ww`: wireless wide area network (WWAN)
 
-Use firmware or BIOS information.
+Use firmware or BIOS information:
 
 - onboard devices
 - PCI express hotplug devices
 
-Use devices found physically.
+Use devices found physically:
 
 - PCI card slot
 - PCI express slot
@@ -308,7 +308,7 @@ Use devices found physically.
 - nmtui
 - nm-connection-editor
 
-Or use GNOME's network GUI.
+Or use GNOME's network GUI:
 
 ```bash
 ip addr
@@ -339,6 +339,10 @@ timedatectl set-timezone America/Chicago
 timedatectl set-ntp true
 ```
 
+---
+
+## At and Batch
+
 ### Schedule a Command
 
 ```bash
@@ -350,17 +354,13 @@ sudo systemctl start atd
 sudo systemctl enable atd
 ```
 
----
-
-## At and Batch
-
-Schedule a job to run 5 minutes from now.
+Schedule a job to run 5 minutes from now:
 
 ```bash
 at now +5min
 ```
 
-Enter an arbitrary number of commands to execute.
+Enter an arbitrary number of commands to execute:
 
 ```bash
 mkdir ~/Documents.bak
@@ -378,7 +378,7 @@ atrm <jobid>
 atq
 ```
 
-Execute an arbitrary number commands (if the system isn't busy).
+Execute an arbitrary number commands (if the system isn't busy):
 
 ```bash
 batch
@@ -387,7 +387,7 @@ touch ~/batch-file.txt
 
 Press `ctrl + d` to save and exit the prompt.
 
-Confirm the command was executed.
+Confirm the command was executed:
 
 ```bash
 ls -l ~/batch-file.txt
@@ -509,7 +509,7 @@ ls &>> /home/ls-out-all.txt
 sort < /home/ls-out.txt > /home/sorted.txt
 ```
 
-Split stdout with tee to both a file and the screen.
+Split stdout with tee to both a file and the screen:
 
 ```bash
 # Overwrite
@@ -587,7 +587,7 @@ sudo tar --xattrs -xvpf etc.tar
 sudo tar --xattrs -xvpf etc.tar -C /home/vagrant/Downloads/
 ```
 
-Compress `/etc/services` without `tar`.
+Compress `/etc/services` without `tar`:
 
 ```bash
 # Copy it
