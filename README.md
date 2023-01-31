@@ -19,6 +19,14 @@ future. Commands seen here should also work on Cent OS and Rocky Linux.
 
 ---
 
+## GUI
+
+```bash
+sudo dnf groupinstall workstation
+sudo systemctl set-default graphical.target
+sudo systemctl isolate graphical
+```
+
 ## Manuals
 
 Man pages are located in directory: `/usr/share/man`.
@@ -58,6 +66,7 @@ man perl
 apropos perl
 info perl
 ```
+
 ---
 
 ## Text Editors
@@ -175,7 +184,6 @@ Symbolic (soft) links:
 - can link to directories or across partitions
 - will break when its target is deleted
 - explicitly easier to identify with `ls -l`
-
 
 ```bash
 touch link-me.txt
@@ -435,7 +443,7 @@ Run every odd minute:
 crontab -e # Edit
 # Use vim, nano, etc. to append
 0 1 * * * rsync -a ~/Documents/ ~/Documents.bak
-crontab -l # Display
+crontab -l # Display (list)
 crontab -r # Remove
 ```
 
@@ -574,7 +582,7 @@ a.k.a. `tar`.
 
 ```bash
 # --xattrs preserves extended attributes, like
-# access control lists and SELinux securty context.
+# access control lists and SELinux security context.
 # -cvpf: create, verbose, permissions, filename
 sudo tar --xattrs -cvpf etc.tar /etc
 ```
