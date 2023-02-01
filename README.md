@@ -5,17 +5,12 @@ This repo is being built for:
 Red Hat Certified System Administrator (RHCSA)  
 Red Hat Certified Engineer (RHCE)
 
-And any other resources I deem relevant to
-infrastructure prototyping and development.
-
 ---
 
 Red Hat Enterprise Linux (RHEL) notes on
 automation, system administration, and infrastructure.
 
-This repo uses Vagrant to quickly set up a RHEL-related VM. I will
-likely set up Ansible and other automation software like Puppet in the near
-future. Commands seen here should also work on Cent OS and Rocky Linux.
+This repo uses Vagrant to quickly set up a RHEL-related VM.
 
 ---
 
@@ -166,10 +161,10 @@ tree
 
 Hard links:
 
-- use practically zero space on disk
-- cannot link to directories or across partitions
-- will not break when its target is deleted
-- use tools like `ls -l` or `stat` to identify inodes
+- Use practically zero space on disk
+- Cannot link to directories or across partitions
+- Will not break when its target is deleted
+- Use tools like `ls -l` or `stat` to identify inodes
 
 ```bash
 # More on inodes
@@ -180,10 +175,10 @@ info inode
 
 Symbolic (soft) links:
 
-- does use some space on disk
-- can link to directories or across partitions
-- will break when its target is deleted
-- explicitly easier to identify with `ls -l`
+- Does use some space on disk
+- Can link to directories or across partitions
+- Will break when its target is deleted
+- Explicitly easier to identify with `ls -l`
 
 ```bash
 touch link-me.txt
@@ -282,16 +277,16 @@ todo
 
 ### Hostname
 
-- edit `/etc/hostname`
+- Edit `/etc/hostname`
 - hostnamectl
 
 ### Name Resolution
 
-- edit `/etc/hosts`
-- dynamic resolution using DNS
-- add DNS servers to `/etc/resolv.conf`
-- static nameserver config
-- use Network Manager
+- Edit `/etc/hosts`
+- Dynamic resolution using DNS
+- Add DNS servers to `/etc/resolv.conf`
+- Static nameserver config
+- Use Network Manager
 
 ### Network Device Naming
 
@@ -301,7 +296,7 @@ todo
 
 Use firmware or BIOS information:
 
-- onboard devices
+- Onboard devices
 - PCI express hotplug devices
 
 Use devices found physically:
@@ -730,6 +725,11 @@ sudo journalctl --since yesterday
 sudo journalctl -b -l
 ```
 
+```bash
+# --pager-end, --follow, --catalog
+sudo journalctl -efx > ~/Documents/journalctl-efx.log
+```
+
 ---
 
 ## RHEL Packages
@@ -835,11 +835,12 @@ dnf --showduplicates list xfsprogs
 
 Search available packages based on:
 
-- name: package name
-- version: package version
-- release: release version
-- architecture: hardware architecture
-- epoch: fine-grain control based on epoch time
+- Name: package name
+- Version: package version
+- Release: release version
+- Architecture: hardware architecture
+- Epoch: fine-grain control based on epoch time
+- Also allows upgrading to lower versions
 
 Different combinations you can try:
 
@@ -860,7 +861,7 @@ dnf --showduplicates list xfsprogs-5.0.0-10.el8
 dnf --showduplicates list xfsprogs-5.0.0-10.el8.i686
 ```
 
-### Manage System Packages
+### System Packages
 
 ```bash
 dnf list
@@ -904,7 +905,7 @@ sudo dnf remove gcc # Don't actually remove gcc
 sudo dnf autoremove
 ```
 
-### Manage Package Groups
+### Package Groups
 
 ```bash
 # Groups of related packages
@@ -920,7 +921,7 @@ sudo dnf group upgrade security-tools
 sudo dnf group remove security-tools
 ```
 
-### Manage OS Upgrades
+### OS Upgrades
 
 ```bash
 # Upgrade a package
@@ -1010,7 +1011,7 @@ sudo grub2-set-default 1
 sudo grub2-mkconfig
 ```
 
-### Manage Kernel Modules
+### Kernel Modules
 
 ```bash
 lsmod # Status of kernel modules
