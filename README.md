@@ -64,6 +64,16 @@ info perl
 
 ---
 
+## System Information
+
+```bash
+hostnamectl
+file /usr/bin/ls
+which ls
+```
+
+---
+
 ## Text Editors
 
 ```bash
@@ -278,7 +288,7 @@ todo
 ### Hostname
 
 - Edit `/etc/hostname`
-- hostnamectl
+- `hostnamectl`
 
 ### Name Resolution
 
@@ -290,8 +300,8 @@ todo
 
 ### Network Device Naming
 
-- `en`: ethernet  
-- `wl`: wireless LAN (WLAN)  
+- `en`: ethernet
+- `wl`: wireless LAN (WLAN)
 - `ww`: wireless wide area network (WWAN)
 
 Use firmware or BIOS information:
@@ -410,7 +420,7 @@ sudo systemctl enable crond
 
 User cron jobs are stored in directory:  
 `/var/spool/cron/<user>`  
-User cron jobs are specific to each user, and can be managed by them.  
+User cron jobs are specific to each user, and can be managed by them.
 
 System cron jobs are managed by the root user: `/etc/cron.d`
 
@@ -718,7 +728,7 @@ sudo systemctl restart systemd-journald
 ls -l /var/log/journal/
 ```
 
-```
+```bash
 # Logs written since yesterday
 sudo journalctl --since yesterday
 # Logs written from the boot process
@@ -840,7 +850,7 @@ Search available packages based on:
 - Release: release version
 - Architecture: hardware architecture
 - Epoch: fine-grain control based on epoch time
-- Also allows upgrading to lower versions
+  - Also allows upgrading to lower versions
 
 Different combinations you can try:
 
@@ -935,7 +945,7 @@ sudo dnf upgrade grub2-tools
 
 ```bash
 sudo dnf upgrade # Upgrade all packages
-# Upgrade everyting except the kernel
+# Upgrade everything except the kernel
 sudo dnf upgrade -x kernel*
 
 # Permanently hold back specified packages
