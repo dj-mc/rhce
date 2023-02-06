@@ -1050,3 +1050,41 @@ sudo rm /etc/modprobe.d/ctxfi.conf
 # Required kernel modules
 sudo depmod -v
 ```
+
+---
+
+## RHEL-Only Configuration
+
+Only one system should have Ansible installed.  
+I have it installed on the same machine that's running Vagrant, which is Debian-based.  
+I wrote a guide on setting up Vagrant + Ansible on Ubuntu [here](https://github.com/dj-mc/ansi).
+
+Install Ansible as a control node on RHEL.
+
+```bash
+# Enable the repo for Ansible on RHEL
+sudo subscription-manager repos --list | grep ansible
+sudo subscription-manager repos --enable ansible-<current version>
+
+sudo yum install -y dnf-plugins-core
+sudo yum config-manager --disable epel epel-modular
+sudo yum repolist
+sudo yum install -y ansible
+```
+
+Install Ansible as a control node on CentOS or Rocky.
+
+```bash
+sudo yum install -y epel-release
+sudo yum install -y ansible
+```
+
+Confirm `ansible` is available to your system.  
+`ansible-playbook` is a symbolic link to Ansible.
+
+```bash
+which ansible
+file $(which ansible)
+file $(which ansible-playbook)
+ansible --version
+```
