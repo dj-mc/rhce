@@ -277,14 +277,57 @@ Manage nodes with ad hoc commands:
 - Ansible ad hoc commands
 - Ansible documentation
 
+```bash
+echo "ansible_connection: local" > ~/ansible/host_vars/192.168.33.14
+echo "ansible_connection: local" > ~/ansible/host_vars/192.168.33.15
+ansible-inventory --host 192.168.33.14
+ansible-inventory --host 192.168.33.15
+```
+
+Find information on inventories:
+
+```bash
+ansible 192.168.33.14 -m ping
+ansible 192.168.33.15 -m ping
+
+# Grouped inventory
+cat ansible/inventory
+
+# List inventory groups
+ansible --list all
+ansible --list ungrouped
+ansible --list rocky
+ansible --list redhat
+
+# Output inventory as json
+ansible-inventory --list
+# Output inventory as yaml
+ansible-inventory --list -y
+```
+
+Dynamic inventory:
+
+```bash
+man nmap
+sudo yum install nmap
+sudo nmap -Pn -p22 -n 192.168.33.0/24 --open
+sudo nmap -Pn -p22 -n 192.168.33.0/24 --open -oG -
+sudo nmap -Pn -p22 -n 192.168.33.0/24 --open -oG - | awk '/22\/open/{ print $2 }'
+```
+
 ## The Environment
 
 - Copy vagrant keys to control node
 - Connect to systems to test/collect public keys of nodes
-- Create penguin user with sudo rights
-- Generate keys for vagrant to login as penguin
+- Create a user (named `penguin`) with sudo rights
+- Generate keys for vagrant to login as `penguin`
 - Login and distribute keys to remote nodes
-- Adjust .ansible.cfg to use a private key automatically
+- Adjust `.ansible.cfg` to use a private key automatically
+
+```bash
+ansible debug
+man -k ansible debug
+```
 
 ## SSH Key-Based Authentication
 
@@ -305,4 +348,14 @@ vagrant install vagrant-scp
 # Copy and paste the private_key as an argument to scp
 # host:guest.key
 vagrant scp .vagrant/machines/rocky2/virtualbox/private_key rocky1:rocky2.key
+```
+
+```bash
+ansible 192.168.33.15 --private-key rocky2.key -u vagrant -m ping
+```
+
+SSH into a managed node from the control node:
+
+```bash
+ssh -i rocky2.key 192.168.33.15
 ```
