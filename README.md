@@ -131,7 +131,7 @@ cp -R ~/dir3 ~/dir4
 Want to know what `-pf`, `-R`, or `--verbose` does for `cp`?
 
 1. `man cp`
-2. Type `/` and type `-p`, `-f`, `-R`, or `--verbose` to search
+2. Type `/` and then `-p`, `-f`, `-R`, or `--verbose` to search
 3. Press `enter` and then `n` or `shift+n` to navigate
 
 You can do this for any command, flag, option, etc.
@@ -1055,10 +1055,6 @@ sudo depmod -v
 
 ## RHEL-Only Configuration
 
-Only one system should have Ansible installed.  
-I have it installed on the same machine that's running Vagrant, which is Debian-based.  
-I wrote a guide on setting up Vagrant + Ansible on Ubuntu [here](https://github.com/dj-mc/ansi).
-
 Install Ansible as a control node on RHEL.
 
 ```bash
@@ -1071,6 +1067,13 @@ sudo yum config-manager --disable epel epel-modular
 sudo yum repolist
 sudo yum install -y ansible
 ```
+
+### Non-RHEL Configuration (CentOS/Rocky)
+
+Only one system should have Ansible installed.  
+I have it installed on the `rocky1` VM created via Vagrant. However, it can also
+be installed on the same bare-metal machine that's running Vagrant.  
+I wrote a guide on setting up Vagrant + Ansible on Ubuntu [here](https://github.com/dj-mc/ansi).
 
 Install Ansible as a control node on CentOS or Rocky.
 
