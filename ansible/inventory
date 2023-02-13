@@ -1,0 +1,5 @@
+[rocky]
+192.168.33.14
+192.168.33.15
+[redhat:children]
+rocky

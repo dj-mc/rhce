@@ -1,0 +1,10 @@
+- name: My Play
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Ping Me
+      ping:
+    - name: OS Family
+      debug:
+        # Use Jinja to extract data from the debug command
+        msg: "{{ ansible_os_family }} - {{ ansible_distribution }}"
