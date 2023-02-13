@@ -7,7 +7,7 @@ HIST_CTRL='HISTCONTROL=ignoreboth'
 HIST_EXPORT='export PROMPT_COMMAND="history -a; history -c; history -r"'
 HIST_SHOPT='shopt -s histappend'
 
-# --quiet, --fixed-strings
+# -qF: --quiet, --fixed-strings
 grep -qF -- "$HIST_CTRL" "$BASHRC_FILE" || echo "\n# History\n$HIST_CTRL" >> "$BASHRC_FILE"
 grep -qF -- "$HIST_EXPORT" "$BASHRC_FILE" || echo "$HIST_EXPORT" >> "$BASHRC_FILE"
 grep -qF -- "$HIST_SHOPT" "$BASHRC_FILE" || echo "$HIST_SHOPT" >> "$BASHRC_FILE"
@@ -22,6 +22,17 @@ fi
 grep -qF -- "$BRACKETED" "$INPUTRC_FILE" || echo "$BRACKETED" >> "$INPUTRC_FILE"
 SCRIPT
 
+$install_control_node = <<-SCRIPT
+if ! [ -x "$(command -v ansible)" ]; then
+  sudo yum install -y epel-release
+  sudo yum install -y ansible
+fi
+if ! [ -f "/home/vagrant/.ansible.cfg" ]; then
+  echo "No home configuration found for Ansible"
+  touch .ansible.cfg
+fi
+SCRIPT
+
 Vagrant.configure("2") do |config|
   config.vm.define "rocky1" do |rocky|
     rocky.vm.box = "generic/rocky8"
@@ -30,11 +41,17 @@ Vagrant.configure("2") do |config|
       vb.gui = false
       vb.memory = "512"
       vb.name = "rhce-box1"
-      # vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
     end
+
+    # Let this VM have access to this repo's bash scripts
     rocky.vm.synced_folder "scripts/", "/home/vagrant/scripts",
       owner: "vagrant", group: "vagrant", create: true
+    # Let this VM have access to this repo's ansible playbooks
+    rocky.vm.synced_folder "ansible/", "/home/vagrant/ansible",
+      owner: "vagrant", group: "vagrant", create: true
+
     rocky.vm.provision "shell", inline: $preferences
+    rocky.vm.provision "shell", inline: $install_control_node
   end
 
   config.vm.define "rocky2" do |rocky|
@@ -44,7 +61,6 @@ Vagrant.configure("2") do |config|
       vb.gui = false
       vb.memory = "512"
       vb.name = "rhce-box2"
-      # vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
     end
     rocky.vm.synced_folder "scripts/", "/home/vagrant/scripts",
       owner: "vagrant", group: "vagrant", create: true
