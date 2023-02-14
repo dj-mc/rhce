@@ -22,6 +22,8 @@ sudo systemctl set-default graphical.target
 sudo systemctl isolate graphical
 ```
 
+---
+
 ## Manuals
 
 Man pages are located in directory: `/usr/share/man`.

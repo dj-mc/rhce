@@ -161,13 +161,17 @@ ansible-config dump
 ansible-config dump --only-changed
 ```
 
+### Configure the ~/.ansible.cfg File
+
 ```bash
 vim ~/.ansible.cfg
 ```
 
+Input the following:
+
 ```ini
 [defaults]
-inventory = inventory
+inventory = ansible/inventory
 remote_user = penguin
 
 [privilege_escalation]
@@ -250,8 +254,7 @@ configuration or purpose. The default groups are `all` and `ungrouped`.
 
 `group_vars` and `host_vars`
 
-implicit localhost 
-
+implicit localhost  
 ansible_connection: local
 
 - Inventory types
@@ -315,6 +318,8 @@ sudo nmap -Pn -p22 -n 192.168.33.0/24 --open -oG -
 sudo nmap -Pn -p22 -n 192.168.33.0/24 --open -oG - | awk '/22\/open/{ print $2 }'
 ```
 
+---
+
 ## The Environment
 
 - Copy vagrant keys to control node
@@ -328,6 +333,8 @@ sudo nmap -Pn -p22 -n 192.168.33.0/24 --open -oG - | awk '/22\/open/{ print $2 }
 ansible debug
 man -k ansible debug
 ```
+
+---
 
 ## SSH Key-Based Authentication
 
