@@ -357,8 +357,57 @@ vagrant install vagrant-scp
 vagrant scp .vagrant/machines/rocky2/virtualbox/private_key rocky1:rocky2.key
 ```
 
+---
+
+## SSH and Ad Hoc Ansible Commands
+
 ```bash
 ansible 192.168.33.15 --private-key rocky2.key -u vagrant -m ping
+ansible rocky --private-key rocky2.key -u vagrant -m ping
+```
+
+Manage users with ad hoc commands:
+
+```bash
+# Add a user named penguin
+ansible 192.168.33.15 --private-key rocky2.key -u vagrant -m user -a "name=penguin state=present"
+# Remove a user named penguin
+ansible 192.168.33.15 --private-key rocky2.key -u vagrant -m user -a "name=penguin state=absent"
+
+# Configure a user's sudoer privileges
+echo "penguin ALL=(root) NOPASSWD: ALL" > penguin
+# Confirm the file is parsed OK
+visudo -cf penguin
+
+# Copy the user file to the /etc/sudoers.d/ directory
+ansible 192.168.33.15 --private-key rocky2.key -u vagrant -m copy -a "src=penguin dest=/etc/sudoers.d/"
+
+# Generate an ssh key with an empty password
+ssh-keygen
+
+# Authorize the ssh key with the authorized_key module
+# Lookup the id_rsa.pub file with jinja
+ansible 192.168.33.15 --private-key rocky2.key -u vagrant -m authorized_key -a "user=penguin state=present key='{{ lookup('file', '/home/vagrant/.ssh/id_rsa.pub') }}'"
+```
+
+```bash
+vim ~/.ansible.cfg
+```
+
+Append the following:
+
+```ini
+[defaults]
+inventory = ansible/inventory
+remote_user = penguin
+private_key_file = ~/.ssh/id_rsa
+
+[privilege_escalation]
+become = True
+```
+
+```bash
+ansible all -m ping
 ```
 
 SSH into a managed node from the control node:
@@ -366,3 +415,30 @@ SSH into a managed node from the control node:
 ```bash
 ssh -i rocky2.key 192.168.33.15
 ```
+
+---
+
+## Agnostic Installation of Packages
+
+The tree package usually has the same name across systems.
+
+`ansible all -m package -a "name=tree state=present`
+
+But some packages have different names:
+
+```bash
+# Differentiate packages via groups
+# Access the variable `vim_editor` via group_vars
+echo "vim_editor: vim-enhanced" >> ansible/group_vars/redhat
+echo "vim_editor: vim" >> ansible/group_vars/ubuntu
+
+ansible-inventory --host 192.168.33.14
+ansible-inventory --host 192.168.33.15
+
+ansible all -m package -a "name={{ vim_editor }} state=absent"
+ansible all -m package -a "name={{ vim_editor }} state=present"
+```
+
+Learn more:
+
+`ansible-doc user`
