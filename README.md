@@ -68,10 +68,40 @@ info perl
 
 ## System Information
 
+Try out these commands to get technical information on the system you're running.
+
 ```bash
+df
 hostnamectl
-file /usr/bin/ls
+uname -r
+top
+
 which ls
+whereis ls
+file /usr/bin/ls
+stat /usr/bin/ls
+
+ls -l ~
+lsattr ~
+lscpu
+lsblk -a
+lsusb -v
+lspci -t
+sudo lshw
+sudo lsof -i -P -n
+
+nl /etc/passwd
+cat -n /etc/passwd
+more /etc/passwd
+less /etc/passwd
+
+sudo dmesg | less
+sudo dmidecode -t bios
+sudo dmidecode -t memory
+sudo dmidecode -t processor
+sudo dmidecode -t system
+sudo hdparm /dev/sda1
+sudo fdisk -l
 ```
 
 ---
@@ -208,6 +238,25 @@ ls -l
 rm link-me.txt
 ls -l
 ```
+
+---
+
+## Permissions
+
+| permission | owner   | group | public |
+| ---------- | ------- | ----- | ------ |
+| read       | 400     | 40    | 4      |
+| write      | 200     | 20    | 2      |
+| execute    | 100     | 10    | 1      |
+
+(d-w--w--w-) a directory with permission 200 + 20 + 2 = 222
+
+### SSH Permissions
+
+.ssh directory: 700 (drwx------)
+public key file (.pub): 644 (-rw-r--r--)
+private key file (id_rsa): 600 (-rw-------)
+home directory: at most 755 (drwxr-xr-x)
 
 ---
 
