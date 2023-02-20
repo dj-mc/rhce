@@ -1,0 +1,12 @@
+- name: Playbook All
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: First Task
+      package:
+        name: tree
+        state: present
+    - name: Debug This Task
+      debug:
+        msg: "This is {{ ansible_os_family }} - {{ ansible_distribution }}"
