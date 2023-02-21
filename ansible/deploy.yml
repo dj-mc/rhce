@@ -1,0 +1,27 @@
+- name: Deploy Ansible System
+  hosts: all
+  become: true
+  tasks:
+    - name: Create User
+      user:
+        state: present
+        shell: /bin/bash
+        name: penguin
+        password: "{{ '123password' | password_hash('sha512') }}"
+        update_password: on_create
+    - name: NOPASSWD User
+      copy:
+        dest: /etc/sudoers.d/penguin
+        content: "penguin ALL=(root) NOPASSWD: ALL"
+    - name: Edit SSHD Config
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication'
+        line: 'PasswordAuthentication yes'
+        insertafter: '^PasswordAuthentication'
+      notify: Restart SSHD
+  handlers:
+    - name: Restart SSHD
+      service:
+        name: sshd
+        state: restarted

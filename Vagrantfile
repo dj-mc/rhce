@@ -37,9 +37,11 @@ Vagrant.configure("2") do |config|
   config.vm.define "rocky1" do |rocky|
     rocky.vm.box = "generic/rocky8"
     rocky.vm.network "private_network", ip: "192.168.33.14"
+    rocky.vm.provision "ansible", playbook: "ansible/deploy.yml"
     rocky.vm.provider "virtualbox" do |vb|
       vb.gui = false
-      vb.memory = "512"
+      vb.memory = "256"
+      vb.cpus = 1
       vb.name = "rhce-box1"
     end
 
@@ -57,9 +59,11 @@ Vagrant.configure("2") do |config|
   config.vm.define "rocky2" do |rocky|
     rocky.vm.box = "generic/rocky8"
     rocky.vm.network "private_network", ip: "192.168.33.15"
+    rocky.vm.provision "ansible", playbook: "ansible/deploy.yml"
     rocky.vm.provider "virtualbox" do |vb|
       vb.gui = false
-      vb.memory = "512"
+      vb.memory = "256"
+      vb.cpus = 1
       vb.name = "rhce-box2"
     end
     rocky.vm.synced_folder "scripts/", "/home/vagrant/scripts",
