@@ -2,19 +2,12 @@
 
 todo
 
-```log
-[WARNING]: Unable to parse /home/vagrant/inventory as an inventory source
-[WARNING]: No inventory was parsed, only implicit localhost is available
-```
-
-- ansible vs. ansible-playbook
+- ansible configuration
 - ansible facts and variables
 - ansible is agnostic
+- ansible vs. ansible-playbook
 - yml and jinja
-- ansible configuration
 - host inventory and node groups
-- ad hoc
-  - -b to elevate
 - documentation
   - ansible-doc -l
   - ansible-doc ping
@@ -502,3 +495,30 @@ find /usr/lib -name 'package.py'
 - Target different operating systems
 - Ansible inside scripts, scripts inside Ansible
 - Use Ansible to provision Vagrant machines
+
+Other commands available:
+
+Use these when an Ansible module is not available.
+
+- shell
+  - opens /bin/sh
+  - access variables and stream ops
+  - considered less secure
+- command
+  - native linux commands
+  - no creation of parent shell needed
+  - no access to variables or stream ops
+  - command is preferred over shell
+- raw
+  - native command execution with no Python requirement
+  - `ansible 192.168.33.15 --private-key rocky2.key -u penguin -m raw -a "yum install -y python3"`
+- script
+  - run a script from the control node across other nodes
+- win_command
+  - `ansible-galaxy collection install ansible.windows`
+- creates
+  - meta-parameter to control command execution
+
+---
+
+## The Big Three
