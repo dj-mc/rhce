@@ -243,20 +243,20 @@ ls -l
 
 ## Permissions
 
-| permission | owner   | group | public |
-| ---------- | ------- | ----- | ------ |
-| read       | 400     | 40    | 4      |
-| write      | 200     | 20    | 2      |
-| execute    | 100     | 10    | 1      |
+| permission | owner | group | public |
+| ---------- | ----- | ----- | ------ |
+| read       | 400   | 40    | 4      |
+| write      | 200   | 20    | 2      |
+| execute    | 100   | 10    | 1      |
 
-(d-w--w--w-) a directory with permission 200 + 20 + 2 = 222
+`(d-w--w--w-)` a directory with permission 200 + 20 + 2 = 222
 
 ### SSH Permissions
 
-.ssh directory: 700 (drwx------)
-public key file (.pub): 644 (-rw-r--r--)
-private key file (id_rsa): 600 (-rw-------)
-home directory: at most 755 (drwxr-xr-x)
+.ssh directory: 700 `(drwx------)`
+public key file (.pub): 644 `(-rw-r--r--)`
+private key file (id_rsa): 600 `(-rw-------)`
+home directory: at most 755 `(drwxr-xr-x)`
 
 ---
 
@@ -1142,3 +1142,48 @@ file $(which ansible)
 file $(which ansible-playbook)
 ansible --version
 ```
+
+---
+
+## Active Directory (AD)
+
+AD integration bridges the gap between machines running different operating systems.
+
+### The AD Provider
+
+- enables SSSD to use the LDAP identity provider
+- and the Kerberos authentication provider, optimized for an AD environment
+- Linux uses a POSIX compliant `User/Group ID` (`UID` and `GID`)
+- Windows uses a `Security ID` (`SID`)
+
+### System Security Services Daemon (SSSD)
+
+- Access remote directories and authentication mechanisms
+- Connect a local system (SSSD client) to a backend (domain)
+- Access remote services
+  - LDAP directory
+  - identity management
+  - active directory
+  - Kerberos realm
+
+If `/etc/sssd/sssd.conf` has:
+
+```conf
+id_provider = ad
+```
+
+How SSSD will handle trusted domains:
+
+- Supports (and will discover all) domains from a single AD forest
+- Will resolve requests for objects located in a trusted domain
+- Use `ad_enabled_domains` in `/etc/sssd/sssd.conf`
+  - to control from which trusted domains SSSD should resolve
+- Use fully-qualified names for users from trusted domains
+
+### `realmd` for direct domain integration
+
+- Direct domain integration
+- Discover and join identity domains
+- Configures SSSD, Winbind, etc. to connect to domains
+
+### `Samba` for AD integration

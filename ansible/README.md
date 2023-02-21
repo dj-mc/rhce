@@ -49,6 +49,11 @@ find ~/.local/pipx/venvs/ansible/lib/python3.10/site-packages/ansible -name ping
 # Ansible must target a node and reference a Python module
 ```
 
+```bash
+ansible debug
+man -k ansible debug
+```
+
 ---
 
 ## Reusable Playbooks
@@ -320,7 +325,7 @@ sudo nmap -Pn -p22 -n 192.168.33.0/24 --open -oG - | awk '/22\/open/{ print $2 }
 
 ---
 
-## The Environment
+## Vagrant, SSH, and Ansible
 
 - Copy vagrant keys to control node
 - Connect to systems to test/collect public keys of nodes
@@ -328,11 +333,6 @@ sudo nmap -Pn -p22 -n 192.168.33.0/24 --open -oG - | awk '/22\/open/{ print $2 }
 - Generate keys for vagrant to login as `penguin`
 - Login and distribute keys to remote nodes
 - Adjust `.ansible.cfg` to use a private key automatically
-
-```bash
-ansible debug
-man -k ansible debug
-```
 
 ---
 
@@ -416,6 +416,16 @@ SSH into a managed node from the control node:
 ssh -i rocky2.key 192.168.33.15
 ```
 
+Learn more about the `-m user` module:
+
+`ansible-doc user`
+
+```bash
+# Don't forget
+ansible-doc --help
+ansible-doc --list
+```
+
 ---
 
 ## Agnostic Installation of Packages
@@ -439,6 +449,56 @@ ansible all -m package -a "name={{ vim_editor }} state=absent"
 ansible all -m package -a "name={{ vim_editor }} state=present"
 ```
 
-Learn more:
+---
 
-`ansible-doc user`
+## More on Playbooks
+
+- Playbooks as yaml
+- Linting playbooks' yaml
+  - ansible-lint
+- Playbooks vs scripts
+- Common playbook solutions
+
+- Prevent injection attacks
+- Import tasks and playbooks
+- Files, packages, services
+
+Lint the playbook yaml files with:
+
+```bash
+# Install with pip
+pip3 install ansible-lint --user
+# Install via package manager
+apt search ansible-lint
+dnf search ansible-lint
+
+ansible-lint -v ansible/my-play.yml
+```
+
+```bash
+# Check syntax
+ansible-playbook ansible/my-play.yml --syntax-check
+# No-operations check with verbose
+ansible-playbook -C -v ansible/my-play.yml
+ansible-playbook -C -v ansible/playbook-all.yml
+```
+
+---
+
+## Finding Ansible Modules
+
+```bash
+find /usr/lib -name 'debug.py'
+# /usr/lib/python3.9/site-packages/ansible/modules/debug.py
+find /usr/lib -name 'package.py'
+# /usr/lib/python3.9/site-packages/ansible/modules/package.py
+```
+
+---
+
+## Scripting with Ansible
+
+- Idempotent scripts
+- Target different operating systems
+- Ansible inside scripts, scripts inside Ansible
+- Use Ansible to provision Vagrant machines
