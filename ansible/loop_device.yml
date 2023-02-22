@@ -1,0 +1,22 @@
+- name: Manage Disk File
+  hosts: all
+  become: true
+  gather_facts: false
+  vars:
+    disk_file: '/root/disk0'
+    loop_device: '/dev/loop100'
+  tasks:
+    - name: Create Disk File
+      command:
+        cmd: "fallocate -l 1G {{ disk_file }}"
+        creates: "{{ disk_file }}"
+
+    - name: Create Loop Device
+      command:
+        cmd: "losetup {{ loop_device }} {{ disk_file }}"
+        creates: "{{ loop_device }}"
+
+    - name: Format Disk File
+      filesystem:
+        fstype: xfs
+        dev: "{{ loop_device }}"
