@@ -18,6 +18,45 @@ todo
 
 ---
 
+## RHEL-Only Configuration
+
+Install Ansible as a control node on RHEL.
+
+```bash
+# Enable the repo for Ansible on RHEL
+sudo subscription-manager repos --list | grep ansible
+sudo subscription-manager repos --enable ansible-<current version>
+
+sudo yum install -y dnf-plugins-core
+sudo yum config-manager --disable epel epel-modular
+sudo yum repolist
+sudo yum install -y ansible
+```
+
+### Non-RHEL Configuration (CentOS/Rocky)
+
+Only one system should have Ansible installed.  
+I have it installed on the `rocky1` VM created via Vagrant. However, it can also
+be installed on the same bare-metal machine that's running Vagrant.  
+I wrote a guide on setting up Vagrant + Ansible on Ubuntu [here](https://github.com/dj-mc/ansi).
+
+Install Ansible as a control node on CentOS or Rocky.
+
+```bash
+sudo yum install -y epel-release
+sudo yum install -y ansible
+```
+
+Confirm `ansible` is available to your system.  
+`ansible-playbook` is a symbolic link to Ansible.
+
+```bash
+which ansible
+file $(which ansible)
+file $(which ansible-playbook)
+ansible --version
+```
+
 ## Ad Hoc Commands
 
 `ansible [pattern] -m [module] -a "[module options]"`
