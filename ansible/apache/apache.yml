@@ -1,0 +1,33 @@
+- name: Deploy Apache Webserver
+  hosts: redhat
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Install Apache Webserver
+      package:
+        name: httpd
+        state: present
+
+    - name: Start and Enable Webserver
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Copy Website Content
+      copy:
+        dest: /var/www/html/style.css
+        content: |
+          body {
+            background: black;
+          }
+
+          main {
+            width: 600px;
+            margin: auto;
+          }
+
+    - name: Copy From a Source Directory
+      copy:
+        dest: /var/www/html/index.html
+        src: /home/vagrant/ansible/apache/web/index.html
