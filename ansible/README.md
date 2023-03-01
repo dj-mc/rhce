@@ -221,7 +221,7 @@ ansible-config list | grep true
 ansible-config dump --only-changed
 ansible localhost -m ping
 
-# Privilege esclation with become
+# Privilege escalation with become
 # -b in an ad-hoc command is no longer necessary
 ansible localhost -m package -a 'name=zsh'
 ```
